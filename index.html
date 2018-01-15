@@ -1,0 +1,64 @@
+<meta name="description" content="Dead simple markdown blogging."/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+<title>Pagiga</title>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+<script src='marked.min.js'></script>
+<link rel="stylesheet" href="reading.css">
+<script type="text/javascript" src="reading.js"></script>
+<script type='text/javascript'>    
+  var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1kcHMZcoLzvIkRZVC4bxrEmNNfkpTt_XvU03LueazxmM/edit?usp=sharing';
+
+  function init() {
+    Tabletop.init( { key: publicSpreadsheetUrl,
+                     callback: showInfo,
+                     simpleSheet: true } )
+  }
+
+  function showInfo(data, tabletop) {
+    console.log(data);
+    var info = data;
+    console.log(info["0"]["Path!"])
+    var pathi = location.hash.slice(1);
+    console.log(location.hash + "1");
+    if(location.hash + "1" == "1"){
+      console.log("ni")
+      function reverseForIn(obj, f) {
+        var arr = [];
+        for (var key in obj) {
+          // add hasOwnPropertyCheck if needed
+          arr.push(key);
+        }
+        for (var i=arr.length-1; i>=0; i--) {
+          f.call(obj, arr[i]);
+        }
+      }
+      document.getElementById("content").innerHTML += "<h1><a href='http://pagi.ga'>Pagi.ga</a></h1><h2>Front end page generator through google forms<h2><hr><h3>Add your own post by filling this <a target='_blank' href='https://goo.gl/forms/iZBAW5dRf1gvNGwY2'>form</a></h3><hr><ul>"
+      reverseForIn(info, function(key){document.getElementById("content").innerHTML += "<li><a target='_blank' href=#" + this[key]["Title"].toLowerCase().split(' ').join('-') + ">"+ this[key]["Timestamp"].slice(0,10) + " - " + this[key]["Title"] + "</a></li>"})
+      document.getElementById("content").innerHTML += "<hr><h2><a href='https://gum.co/pagiga'>Make your own blog for only $5</a></h2>"
+    }
+    var deci = true;
+    for(i = 0; deci==true; i++){
+      if(info[i.toString()]["Title"].toLowerCase().split(' ').join('-') == pathi){
+        document.getElementById("content").innerHTML = "<h1>" + info[i]["Title"]+ "</h1>" + markdown.toHTML(info[i]["Enter your markdown!"]);
+
+        deci = false;
+      }
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+
+</script>
+<body id="content" style="background-color: #FFC952; color: black">
+  
+</body>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-57856524-8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-57856524-8');
+</script>
